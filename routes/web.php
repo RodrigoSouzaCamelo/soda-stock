@@ -11,8 +11,17 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'StockController@index');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/stock', 'StockController@index')->name('stock.index');
+Route::get('/soda', 'SodaController@index')->name('soda.index');
+
+Route::get('/stock/store', 'StockController@store')->name('stock.store');
+Route::get('/soda/store', 'SodaController@store')->name('soda.store');
+
+Route::get('/stock/store/{sodaId}', 'StockController@addSodaInStock')->name('stock.add');
+
+Route::post('/stock/create', 'StockController@create')->name('stock.create');
+Route::post('/soda/create', 'SodaController@create')->name('soda.create');
