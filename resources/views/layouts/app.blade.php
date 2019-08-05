@@ -19,7 +19,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/stylesheet.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -35,7 +34,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @if (!Auth::guest())
+                            <li><a href="{{ route('soda.index') }}">Refrigerantes</a></li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -73,10 +74,21 @@
                 </div>
             </div>
         </nav>
-        @auth
-            @include('templates.menu')
-        @endauth
         <main class="py-4">
+        @if(Session::has('flash_message'))
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-md-offset-1">
+                    <div class="alert {{ Session::get('flash_message')['class'] }} alert-dismissible fade show">
+                        {{ Session::get('flash_message')['msg'] }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
             @yield('content')
         </main>
     </div>
