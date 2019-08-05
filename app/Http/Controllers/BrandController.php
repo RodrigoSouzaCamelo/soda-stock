@@ -11,22 +11,13 @@ use App\Entities\Soda as Soda;
 class BrandController extends Controller
 {
     private $model;
-    private $brandModel;
-    private $bottleTypeModel;
 
-    public function __construct(Brand $model, Brand $brandModel, BottleType $bottleTypeModel, Soda $sodaModel)
+    public function __construct(Brand $model)
     {
         $this->model = $model;
-        $this->brandModel = $brandModel;
-        $this->bottleTypeModel = $bottleTypeModel;
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         $brands = $this->model->paginate(10);
@@ -35,26 +26,46 @@ class BrandController extends Controller
 
     public function store()
     {
-        $brands = $this->brandModel->pluck('Name', 'Id');
-        $bottleTypes = $this->bottleTypeModel->pluck('Name', 'Id');
-        return view('soda.store', ['brands' => $brands, 'bottleTypes' => $bottleTypes]);
+        return view('brand.store');
     }
 
     public function create(Request $request){
-        $statusCreating = $this->model->createSoda($request->all());
+        $this->model->create($request->all());
         
-        if($statusCreating){
-            \Session::flash('flash_message',[
-                'msg'=>"Refrigerante adicionado com Sucesso!",
-                'class'=>"alert-success"
-            ]);
-        } else {
-            \Session::flash('flash_message',[
-                'msg'=>"Refrigerante já foi cadastrado!",
-                'class'=>"alert-danger"
-            ]);
-        }
+        \Session::flash('flash_message',[
+            'msg'=>"Marca adicionada com Sucesso!",
+            'class'=>"alert-success"
+        ]);
         
-        return redirect()->route('soda.store');
+        return redirect()->route('brand.store');
+    }
+
+    public function edit($brandId)
+    {
+        $brand = $this->model->find($brandId);
+        return view('brand.edit', compact('brand'));
+    }
+
+    public function update(Request $request, $brandId)
+    {
+        $this->model->updateBrand($brandId, $request->except(['_token']));
+        
+        \Session::flash('flash_message',[
+            'msg'=>"Marca editada com Sucesso!",
+            'class'=>"alert-success"
+        ]);
+        
+        return redirect()->route('brand.index');
+    }
+
+    public function delete($brandId){
+        $brand = $this->model->deleteBrandById($brandId);
+        
+        \Session::flash('flash_message',[
+            'msg'=>"Marca deletada com Sucesso!",
+            'class'=>"alert-success"
+        ]);
+        
+        return redirect()->route('brand.index');
     }
 }

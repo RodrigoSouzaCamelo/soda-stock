@@ -28,3 +28,11 @@ Route::post('/soda/create', 'SodaController@create')->name('soda.create');
 
 // BRAND
 Route::get('/brand', 'BrandController@index')->name('brand.index');
+
+Route::get('/brand/store', 'BrandController@store')->name('brand.store');
+Route::post('/brand/create', 'BrandController@create')->name('brand.create');
+
+Route::get('/brand/edit/{brandId}', 'BrandController@edit')->name('brand.edit');
+Route::post('/brand/update/{brandId}', 'BrandController@update')->name('brand.update');
+
+Route::get('/brand/{brandId}', 'BrandController@delete')->name('brand.delete');

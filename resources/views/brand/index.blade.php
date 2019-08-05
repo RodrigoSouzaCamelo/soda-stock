@@ -1,5 +1,20 @@
 @extends('layouts.app')
 
+@section('scripts')
+<script>
+    function btnDeleteBrand(id)
+    {
+        var deleteBrand = confirm("Você realmente deseja deleter essa marca?");
+
+        var url = "{{ route('brand.delete', ':id') }}";
+        url = url.replace(':id', id);
+
+        if(deleteBrand)
+             window.location.href = url;
+    }
+</script>
+@endsection
+
 @section('content')
 <div class="content">
     <div class="row justify-content-center">
@@ -14,7 +29,7 @@
                         </div>
                     @endif
                     <p>
-                        <a href="#" class="btn btn-primary">Adicionar</a>
+                        <a href="{{ route('brand.store') }}" class="btn btn-primary">Adicionar</a>
                     </p>
                     <table class="table table-striped">
                         <thead>
@@ -28,8 +43,10 @@
                             <tr>
                                 <td>{{ $item->Name }}</td>
                                 <td>
-                                    <i class="fa fa-edit" style="color: blue"></i>
-                                    <i class="fa fa-remove" style="color: red"></i>
+                                    <a href="{{ route('brand.edit', $item->Id) }}"><i class="fa fa-edit" style="color: blue"></i></a>
+                                    <a onclick="btnDeleteBrand({{ $item->Id }});" style="cursor:pointer;">
+                                        <i class="fa fa-remove" style="color: red"></i>
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach
