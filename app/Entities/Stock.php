@@ -34,7 +34,7 @@ class Stock extends Model
                     ->join('Brands as b', 'b.Id', '=', 'so.BrandId')
                     ->join('BottleTypes as bt', 'bt.Id', '=', 'so.BottleTypeId')
                     ->where('ps.Id', 1)
-                    ->groupBy('so.Flavor', 'b.Id', 'so.Liters')->paginate(15);
+                    ->groupBy('so.Flavor', 'b.Id', 'so.Liters')->paginate(10);
     }
 
     public function addSodaInStock($sodaId)

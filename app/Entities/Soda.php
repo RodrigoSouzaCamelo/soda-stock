@@ -37,7 +37,7 @@ class Soda extends Model
         return $this->select($columns)
                     ->join('Brands as b', 'b.Id', '=', 'sodas.BrandId')
                     ->join('BottleTypes as bt', 'bt.Id', '=', 'sodas.BottleTypeId')
-                    ->paginate(15);
+                    ->paginate(10);
     }
 
     public function createSoda($entity)
