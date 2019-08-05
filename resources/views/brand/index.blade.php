@@ -14,18 +14,19 @@
                         </div>
                     @endif
                     <p>
-                        <a href="{{ route('brand.store') }}" class="btn btn-primary">Adicionar</a>
+                        <a href="#" class="btn btn-primary">Adicionar</a>
                     </p>
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">Marca</th>
+                                <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($brands as $item)
                             <tr>
-                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->Name }}</td>
                                 <td>
                                     <i class="fa fa-edit" style="color: blue"></i>
                                     <i class="fa fa-remove" style="color: red"></i>
@@ -34,7 +35,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                        {!! $sodaItems->links() !!}
+                        {!! $brands->links() !!}
                 </div>
             </div>
         </div>

@@ -35,7 +35,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         @if (!Auth::guest())
-                            <li><a href="{{ route('soda.index') }}">Refrigerantes</a></li>
+                            <li class="nav-item"><a href="{{ route('stock.index') }}" class="nav-link">Página Inicial</a></li>
+                            <li class="nav-item"><a href="{{ route('soda.index') }}" class="nav-link">Refrigerantes</a></li>
+                            <li class="nav-item"><a href="{{ route('brand.index') }}" class="nav-link">Marcas</a></li>
                         @endif
                     </ul>
 
