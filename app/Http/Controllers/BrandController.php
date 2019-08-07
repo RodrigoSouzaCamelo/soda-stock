@@ -58,7 +58,7 @@ class BrandController extends Controller
         return redirect()->route('brand.index');
     }
 
-    public function delete($brandId){
+    public function deleteById($brandId){
         $brand = $this->model->deleteBrandById($brandId);
         
         \Session::flash('flash_message',[
@@ -67,5 +67,11 @@ class BrandController extends Controller
         ]);
         
         return redirect()->route('brand.index');
+    }
+
+    public function deleteByArrayId($id){
+        $this->model->deleteBrandById($id);
+        
+        exit;
     }
 }

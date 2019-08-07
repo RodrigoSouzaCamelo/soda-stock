@@ -35,4 +35,5 @@ Route::post('/brand/create', 'BrandController@create')->name('brand.create');
 Route::get('/brand/edit/{brandId}', 'BrandController@edit')->name('brand.edit');
 Route::post('/brand/update/{brandId}', 'BrandController@update')->name('brand.update');
 
-Route::get('/brand/{brandId}', 'BrandController@delete')->name('brand.delete');
+Route::get('/brand/{brandId}', 'BrandController@deleteById')->name('brand.delete');
+Route::get('/brand/delete/array/{BrandId}', 'BrandController@deleteByArrayId')->name('brand.delete.array');
