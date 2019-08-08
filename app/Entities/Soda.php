@@ -3,10 +3,11 @@
 namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Mockery\Undefined;
 
 class Soda extends Model
 {
-    protected $fillable = ['brandid', 'bottletypeid', 'flavor', 'liters', 'unitaryvalue'];
+    protected $fillable = ['id', 'brandid', 'bottletypeid', 'flavor', 'liters', 'unitaryvalue'];
 
     public function brands()
     {
@@ -27,8 +28,8 @@ class Soda extends Model
     {
         $columns = [
             'sodas.Id as id',
-            'sodas.Flavor as flavor', 
-            'sodas.Liters as liters', 
+            'sodas.Flavor as flavor',
+            'sodas.Liters as liters',
             'sodas.UnitaryValue as unitary_value',
             'b.Name as brand',
             'bt.Name as bottle_type',
@@ -45,9 +46,9 @@ class Soda extends Model
         $sodaExists = $this->where([
             ['brandid', '=', $entity['brands']],
             ['liters', '=', $entity['liters']],
-        ]);
+        ])->count();
 
-        if(!$sodaExists){
+        if($sodaExists == 0){
             $soda = new Soda();
             $soda->brandid = $entity['brands'];
             $soda->bottleTypeid = $entity['bottleTypes'];
@@ -60,5 +61,15 @@ class Soda extends Model
         } else {
             return false;
         }
+    }
+
+    public function updateSoda($sodaId, $soda)
+    {
+        $this->where('id', $sodaId)->update($soda);
+    }
+
+    public function deleteSodaById($sodaId)
+    {
+        $this->where('id', $sodaId)->delete();
     }
 }

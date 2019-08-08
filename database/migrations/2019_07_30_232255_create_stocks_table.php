@@ -18,13 +18,13 @@ class CreateStocksTable extends Migration
             $table->unsignedBigInteger('SodaId');
             $table->unsignedBigInteger('ProductStatusId');
             $table->timestamps();
-            
+
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
         });
 
         Schema::table('Stocks', function (Blueprint $table) {
-            $table->foreign('SodaId')->references('Id')->on('Sodas');
+            $table->foreign('SodaId')->references('Id')->on('Sodas')->onDelete('cascade');
             $table->foreign('ProductStatusId')->references('Id')->on('ProductsStatus');
         });
     }

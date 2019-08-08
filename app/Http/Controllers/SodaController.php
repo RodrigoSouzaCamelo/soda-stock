@@ -42,7 +42,7 @@ class SodaController extends Controller
 
     public function create(Request $request){
         $statusCreating = $this->model->createSoda($request->all());
-        
+
         if($statusCreating){
             \Session::flash('flash_message',[
                 'msg'=>"Refrigerante adicionado com Sucesso!",
@@ -54,7 +54,44 @@ class SodaController extends Controller
                 'class'=>"alert-danger"
             ]);
         }
-        
+
         return redirect()->route('soda.store');
+    }
+
+    public function edit($sodaId)
+    {
+        $soda = $this->model->find($sodaId);
+        $brands = $this->brandModel->pluck('Name', 'Id');
+        $bottleTypes = $this->bottleTypeModel->pluck('Name', 'Id');
+        return view('soda.edit', compact('soda', 'brands', 'bottleTypes'));
+    }
+
+    public function update(Request $request, $sodaId)
+    {
+        $this->model->updateSoda($sodaId, $request->except(['_token']));
+
+        \Session::flash('flash_message',[
+            'msg'=>"Refrigerante editado com Sucesso!",
+            'class'=>"alert-success"
+        ]);
+
+        return redirect()->route('soda.index');
+    }
+
+    public function deleteById($sodaId){
+        $soda = $this->model->deleteSodaById($sodaId);
+
+        \Session::flash('flash_message',[
+            'msg'=>"Refrigerante deletado com Sucesso!",
+            'class'=>"alert-success"
+        ]);
+
+        return redirect()->route('soda.index');
+    }
+
+    public function deleteByArrayId($id){
+        $this->model->deleteSodaById($id);
+
+        exit;
     }
 }
