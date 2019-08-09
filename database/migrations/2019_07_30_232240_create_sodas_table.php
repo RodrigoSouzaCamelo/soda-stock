@@ -27,7 +27,7 @@ class CreateSodasTable extends Migration
         });
 
         Schema::table('Sodas', function (Blueprint $table) {
-            $table->foreign('BrandId')->references('Id')->on('Brands');
+            $table->foreign('BrandId')->references('Id')->on('Brands').onDelete('cascade');
             $table->foreign('BottleTypeId')->references('Id')->on('BottleTypes');
         });
     }

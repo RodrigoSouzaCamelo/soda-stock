@@ -2,6 +2,16 @@
 
 @section('scripts')
 <script>
+    function generateAlertHTML(message, classCSS) {
+        let htmlAlert = '<div class="container">' +
+               '<div class="row justify-content-center"><div class="col-md-9 col-md-offset-1">' +
+               '<div class="alert ' + classCSS + ' alert-dismissible fade show">' + message +
+               '<button type="button" data-dismiss="alert" aria-label="Close" class="close">' +
+               '<span aria-hidden="true">×</span></button></div></div></div></div>';
+
+        let content = document.getElementsByClassName('content');
+        content[0].insertAdjacentHTML('afterbegin', htmlAlert);
+    }
 
     function disableOrAbleBtnDelete() {
         let checkboxes = document.getElementsByName("checkboxes[]");
@@ -24,14 +34,17 @@
             if(checkboxes[x].checked && checkboxes[x].value != 0 && checkboxes[x].value != null && checkboxes[x].value != undefined){
                 let url = "{{ route('brand.delete.array', ':id') }}";
                 url = url.replace(':id', checkboxes[x].value);
-                
-                httpRequestPromise("get", url).then(function (response) { return; }, 
+
+                httpRequestPromise("get", url).then(function (response) { 
+                    localStorage.setItem("ItemsSuccessfullyDeleted", true);
+                }, 
                 function (error) {
-                        alert("Erro interno!" + error);
-                        return;
+                    localStorage.setItem("ItemsSuccessfullyDeleted", false);
                 });
             }
         }
+
+        setInterval(() => location.reload(), 500);
     }
 
     function formattedArrayOfId(data){
@@ -45,6 +58,14 @@
 
     function executeBeforePageLoad() {
         disableOrAbleBtnDelete();
+        let itemsSuccessfullyDeleted = localStorage.getItem("ItemsSuccessfullyDeleted");
+        if(itemsSuccessfullyDeleted !== null && itemsSuccessfullyDeleted === "true") {
+            generateAlertHTML("Marcas deletada com sucesso!", "alert-success");
+            localStorage.clear();
+        } else if(itemsSuccessfullyDeleted !== null && itemsSuccessfullyDeleted === "false") {
+            generateAlertHTML("Erro ao deletar marca!", "alert-danger");
+            localStorage.clear();
+        }
     }
 
     function markAllItems(checkboxes) {
